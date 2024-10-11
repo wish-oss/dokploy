@@ -95,6 +95,8 @@ CREATE TABLE IF NOT EXISTS "application" (
 	"buildType" "buildType" DEFAULT 'nixpacks' NOT NULL,
 	"createdAt" text NOT NULL,
 	"projectId" text NOT NULL,
+	"gpuEnabled" boolean DEFAULT false,
+	"gpuCount" integer DEFAULT 0,
 	CONSTRAINT "application_appName_unique" UNIQUE("appName")
 );
 --> statement-breakpoint

@@ -24,6 +24,7 @@ import { validateRequest } from "../auth/auth";
 import { validateBearerToken } from "../auth/token";
 import { findAdminByAuthId } from "./services/admin";
 import { findUserByAuthId } from "./services/user";
+import { setupGPUSupport } from '../utils/gpu-setup';
 
 /**
  * 1. CONTEXT
@@ -211,3 +212,10 @@ export const adminProcedure = t.procedure.use(({ ctx, next }) => {
 		},
 	});
 });
+
+const appRouter = t.router({
+	setupGPU: t.procedure.mutation(async () => {
+	  await setupGPUSupport();
+	  return { success: true };
+	}),
+  });

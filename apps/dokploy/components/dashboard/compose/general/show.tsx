@@ -7,14 +7,17 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { api } from "@/utils/api";
-import React from "react";
+import React, { useState } from "react";
 import { ComposeActions } from "./actions";
 import { ShowProviderFormCompose } from "./generic/show";
+import { Checkbox } from "@/components/ui/checkbox"
+import { Label } from "@/components/ui/label";
 interface Props {
 	composeId: string;
 }
 
 export const ShowGeneralCompose = ({ composeId }: Props) => {
+	const [gpuEnabled, setGpuEnabled] = useState(false);
 	const { data } = api.compose.one.useQuery(
 		{ composeId },
 		{
@@ -32,13 +35,20 @@ export const ShowGeneralCompose = ({ composeId }: Props) => {
 							{data?.composeType === "docker-compose" ? "Compose" : "Stack"}
 						</Badge>
 					</div>
-
 					<CardDescription>
 						Create a compose file to deploy your compose
 					</CardDescription>
 				</CardHeader>
 				<CardContent className="flex flex-col gap-4 flex-wrap">
 					<ComposeActions composeId={composeId} />
+					<div className="flex justify-end items-center space-x-2 mt-4">
+						<Checkbox
+						id="enable-gpu"
+						checked={gpuEnabled}
+						onCheckedChange={(checked) => setGpuEnabled(checked as boolean)}
+						/>
+						<Label htmlFor="enable-gpu">Enable GPU</Label>
+					</div>
 				</CardContent>
 			</Card>
 			<ShowProviderFormCompose composeId={composeId} />
